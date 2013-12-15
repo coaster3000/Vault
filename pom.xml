@@ -5,7 +5,7 @@
 	<!-- Project information -->
 	<groupId>net.milkbowl.vault</groupId>
 	<artifactId>Vault</artifactId>
-	<version>1.2.27</version>
+	<version>1.3.0</version>
 	<name>Vault</name>
 	<url>http://dev.bukkit.org/server-mods/vault/</url>
 	<description>Vault is a Permissions &amp; Economy API to allow plugins to more easily hook into these systems without needing to hook each individual system themselves.
@@ -42,6 +42,10 @@ Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms
 
 	<repositories>
 		<repository>
+			<id>sk89q-repo</id>
+			<url>http://maven.sk89q.com/repo/com/sk89q/</url>
+		</repository>
+		<repository>
 			<id>bukkit-repo</id>
 			<url>http://repo.bukkit.org/content/groups/public/</url>
 		</repository>
@@ -61,6 +65,8 @@ Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms
 			<id>escapecraft-repo</id>
 			<url>http://dev.escapecraft.com/maven</url>
          </repository>
+         
+         
 	</repositories>
 
 	<dependencies>
@@ -362,6 +368,12 @@ Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/TAEcon.jar</systemPath>
 		</dependency>
+		<dependency>
+			<groupId>com.sk89q</groupId>
+			<artifactId>worldguard</artifactId>
+			<version>5.8-SNAPSHOT</version>
+			<scope>provided</scope>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -434,7 +446,7 @@ Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms
 					<bottom>
 			            <![CDATA[<b>MilkBukkit, 2011</b>]]>
 					</bottom>
-					<excludePackageNames>net.milkbowl.vault.chat.*:net.milkbowl.vault.economy.*:net.milkbowl.vault.permission.*</excludePackageNames>
+					<excludePackageNames>net.milkbowl.vault.chat.*:net.milkbowl.vault.economy.*:net.milkbowl.vault.permission.*:net.milkbow.vault.protection.*</excludePackageNames>
 				</configuration>
 			</plugin>
 		</plugins>

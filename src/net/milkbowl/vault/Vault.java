@@ -79,6 +79,8 @@ import net.milkbowl.vault.permission.plugins.Permission_bPermissions2;
 import net.milkbowl.vault.permission.plugins.Permission_zPermissions;
 import net.milkbowl.vault.permission.plugins.Permission_TotalPermissions;
 import net.milkbowl.vault.permission.plugins.Permission_rscPermissions;
+import net.milkbowl.vault.protection.Protection;
+import net.milkbowl.vault.protection.plugins.Protection_WorldGuard;
 
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -127,6 +129,7 @@ public class Vault extends JavaPlugin {
         // Load Vault Addons
         loadEconomy();
         loadPermission();
+        loadProtection();
         loadChat();
 
         getCommand("vault-info").setExecutor(this);
@@ -342,6 +345,12 @@ public class Vault extends JavaPlugin {
 
         this.perms = sm.getRegistration(Permission.class).getProvider();
     }
+    
+    private void loadProtection() {
+    	//try to load WorldGuard
+    	hookProtection("WorldGuard", Protection_WorldGuard.class, ServicePriority.Highest, "com.sk89q.worldguard.bukkit.WGBukkit", "com.sk89q.worldguard.bukkit.WorldGuardPlugin");
+    	
+    }
 
     private void hookChat (String name, Class<? extends Chat> hookClass, ServicePriority priority, String...packages) {
         try {
@@ -377,6 +386,20 @@ public class Vault extends JavaPlugin {
         } catch (Exception e) {
             log.severe(String.format("[%s][Permission] There was an error hooking %s - check to make sure you're using a compatible version!", getDescription().getName(), name));
         }
+    }
+    
+    private void hookProtection (String name, Class<? extends Protection> hookClass, ServicePriority priority, String...packages)
+    {
+    	try { 
+    		if (packagesExists(packages))
+    		{
+    			Protection prot = hookClass.getConstructor(Plugin.class).newInstance(this);
+    			sm.register(Protection.class, prot, this, priority);
+    			log.info(String.format("[%s][Protection] %s found: %s", getDescription().getName(), name, prot.isEnabled() ? "Loaded" : "Waiting"));
+    		}
+    	} catch (Exception e) {
+    		log.severe(String.format("[%s][Protection] There was an error hooking %s - check to make sure you're using a compatible version!", getDescription().getName(), name));
+    	}
     }
 
     @Override
